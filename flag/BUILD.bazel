@@ -1,0 +1,56 @@
+licenses(["notice"])
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":flag_hdrs",
+        ":flag_srcs",
+        ":test_srcs",
+        "BUILD.bazel",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "flag_hdrs",
+    srcs = glob(["*.hpp"]),
+)
+
+filegroup(
+    name = "flag_srcs",
+    srcs = glob(["src/*.cpp"]),
+)
+
+filegroup(
+    name = "test_srcs",
+    srcs = glob(["test/*.cpp"]),
+)
+
+######### LIBRARY #########
+
+cc_library(
+    name = "flag",
+    hdrs = [":flag_hdrs"],
+    srcs = [":flag_srcs"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//logs:logs",
+        "@boost//:filesystem",
+        "@boost//:program_options",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+cc_test(
+    name = "test",
+    size = "small",
+    srcs = [":test_srcs"],
+    deps = [
+        ":flag",
+        "@gtest//:gtest",
+    ],
+    linkstatic = True,
+    copts = ["-std=c++17"],
+)

@@ -1,0 +1,4 @@
+estd
+- make config add/remove more safe by performing a verification for existing keys and notifying caller
+fmts
+- create a stringable interface that has method `std::string to_string (void) const`

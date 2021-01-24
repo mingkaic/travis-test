@@ -1,0 +1,52 @@
+licenses(["notice"])
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":diff_hdrs",
+        ":diff_srcs",
+        ":test_srcs",
+        "BUILD.bazel",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "diff_hdrs",
+    srcs = glob(["*.hpp"]),
+)
+
+filegroup(
+    name = "diff_srcs",
+    srcs = glob(["src/*.cpp"]),
+)
+
+filegroup(
+    name = "test_srcs",
+    srcs = glob(["test/*.cpp"]),
+)
+
+######### LIBRARIES #########
+
+cc_library(
+    name = "diff",
+    hdrs = [":diff_hdrs"],
+    srcs = [":diff_srcs"],
+    copts = ["-std=c++17"],
+    deps = ["//fmts:fmts"],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+cc_test(
+    name = "test",
+    size = "small",
+    srcs = [":test_srcs"],
+    deps = [
+        ":diff",
+        "@gtest//:gtest",
+    ],
+    linkstatic = True,
+    copts = ["-std=c++17"],
+)

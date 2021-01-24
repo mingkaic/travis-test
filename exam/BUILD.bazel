@@ -1,0 +1,48 @@
+licenses(["notice"])
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":exam_hdrs",
+        ":test_srcs",
+        "BUILD.bazel",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "exam_hdrs",
+    srcs = glob(["*.hpp"]),
+)
+
+filegroup(
+    name = "test_srcs",
+    srcs = glob(["test/*.cpp"]),
+)
+
+######### LIBRARY #########
+
+cc_library(
+    name = "exam",
+    hdrs = [":exam_hdrs"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//logs:logs",
+        "//fmts:fmts",
+        "@gtest//:gtest",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+cc_test(
+    name = "test",
+    size = "small",
+    srcs = [":test_srcs"],
+    deps = [
+        ":exam",
+    ],
+    linkstatic = True,
+    copts = ["-std=c++17"],
+)

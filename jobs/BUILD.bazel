@@ -1,0 +1,52 @@
+licenses(["notice"])
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":jobs_hdrs",
+        # ":jobs_srcs",
+        ":test_srcs",
+        "BUILD.bazel",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "jobs_hdrs",
+    srcs = glob(["*.hpp"]),
+)
+
+# filegroup(
+#     name = "jobs_srcs",
+#     srcs = glob(["src/*.cpp"]),
+# )
+
+filegroup(
+    name = "test_srcs",
+    srcs = glob(["test/*.cpp"]),
+)
+
+######### LIBRARIES #########
+
+cc_library(
+    name = "jobs",
+    hdrs = [":jobs_hdrs"],
+    # srcs = [":jobs_srcs"],
+    copts = ["-std=c++17"],
+    deps = ["//logs:logs"],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+cc_test(
+    name = "test",
+    size = "medium",
+    srcs = [":test_srcs"],
+    deps = [
+        ":jobs",
+        "@gtest//:gtest",
+    ],
+    linkstatic = True,
+    copts = ["-std=c++17"],
+)
