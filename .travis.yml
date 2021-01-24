@@ -9,7 +9,7 @@ jobs:
       stage: conan_deploy
       script:
         - sudo apt-get install -y python3 python3-pip python3-setuptools
-        - mkdir ~/temp && cd ~/temp
+        - mkdir temp && cd temp
         - wget https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz
         - tar -xzvf cmake-3.19.1.tar.gz
         - cd cmake-3.19.1/
