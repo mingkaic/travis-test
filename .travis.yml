@@ -10,9 +10,9 @@ jobs:
       script:
         - sudo apt-get install -y python3 python3-pip python3-setuptools
         - mkdir ~/temp && cd ~/temp
-        - wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz
-        - tar -xzvf cmake-3.17.1.tar.gz
-        - cd cmake-3.17.1/
+        - wget https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz
+        - tar -xzvf cmake-3.19.1.tar.gz
+        - cd cmake-3.19.1/
         - ./bootstrap
         - make
         - sudo make install
