@@ -8,16 +8,24 @@ jobs:
     - if: branch = master
       stage: conan_deploy
       install:
-        - sudo apt remove --purge --auto-remove cmake
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main'
-        - sudo apt update
-        - sudo apt install cmake
+        - sudo apt purge --auto-remove cmake
+        - if [ -z $(which cmake) ]; then exit 1; fi
+        - version=3.19
+        - build=1
+        - mkdir temp
+        - cd temp
+        - wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz
+        - tar -xzvf cmake-$version.$build.tar.gz
+        - cd cmake-$version.$build/
+        - ./bootstrap
+        - make
+        - sudo make install
+        - cd ../..
+        - cmake --version
       script:
         - sudo apt-get install -y python3 python3-pip python3-setuptools
         - pip3 install wheel
         - pip3 install conan
-        - cmake --version
         - make conan_remote
         - make conan_create
         - VERSION=0.0.1 make conan_upload
