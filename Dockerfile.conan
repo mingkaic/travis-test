@@ -13,9 +13,9 @@ RUN apt purge --auto-remove cmake &&\
 	fi;
 
 RUN cd /tmp &&\
-	wget https://cmake.org/files/v3.19/cmake-3.19.$1.tar.gz &&\
-	tar -xzvf cmake-3.19.$1.tar.gz &&\
-	cd cmake-3.19.$1/ &&\
+	wget https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz &&\
+	tar -xzvf cmake-3.19.1.tar.gz &&\
+	cd cmake-3.19.1/ &&\
 	./bootstrap &&\
 	make &&\
 	make install
