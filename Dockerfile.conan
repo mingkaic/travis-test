@@ -4,7 +4,7 @@ ENV APP_DIR /usr/src/cppkg
 
 # install preliminary deps
 RUN apt-get update &&\
-	apt-get install -y wget python3 python3-pip python3-setuptools &&\
+	apt-get install -y wget python3 python3-pip python3-setuptools libssl-dev &&\
 	pip3 install wheel
 
 RUN apt purge --auto-remove cmake &&\
