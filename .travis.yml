@@ -19,6 +19,7 @@ jobs:
     - if: branch = master
       stage: conan_deploy
       script:
+        - pip3 install -y conan
         - make conan_remote
         - make conan_create
         - VERSION=0.0.1 make conan_upload
