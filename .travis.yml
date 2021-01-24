@@ -1,19 +1,12 @@
 language: minimal
 os: linux
-dist: xenial
+dist: manjaro
 services:
   - docker
 jobs:
   include:
     - if: branch = master
       stage: conan_deploy
-      install:
-        - travis_retry wget https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz
-        - tar -xvf cmake-3.19.1.tar.gz > /dev/null
-        - cd cmake-3.19.1/
-        - ./bootstrap
-        - make
-        - sudo make install
       script:
         - sudo apt-get install -y python3 python3-pip python3-setuptools
         - pip3 install wheel
