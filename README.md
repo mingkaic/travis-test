@@ -21,3 +21,5 @@ This library depends on grpc and protobuf
 # Conan installation
 Before install package first add remote: `conan remote add mingkaic-co "https://gitlab.com/api/v4/projects/23299689/packages/conan"`
 Add requirement `cppkg/<version>@mingkaic-co/stable`
+
+trigger yaml

@@ -1,0 +1,79 @@
+licenses(["notice"])
+
+load("@rules_proto_grpc//cpp:defs.bzl", "cpp_grpc_library")
+
+filegroup(
+    name = "srcs",
+    srcs = [
+        ":egrpc_hdrs",
+        ":egrpc_srcs",
+        ":test_srcs",
+        "BUILD.bazel",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "egrpc_hdrs",
+    srcs = glob(["*.hpp"]),
+)
+
+filegroup(
+    name = "egrpc_srcs",
+    srcs = glob([
+        "src/*.cpp",
+    ]),
+)
+
+filegroup(
+    name = "test_srcs",
+    srcs = glob(["test/*.cpp"]),
+)
+
+filegroup(
+    name = "test_protos",
+    srcs = glob(["test/*.proto"]),
+)
+
+######### LIBRARY #########
+
+cc_library(
+    name = "egrpc",
+    hdrs = [":egrpc_hdrs"],
+    srcs = [":egrpc_srcs"],
+    copts = ["-std=c++17"],
+    deps = [
+        "//logs:logs",
+        "//error:error",
+        "@com_github_grpc_grpc//:grpc++",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+######### TEST #########
+
+proto_library(
+    name = "test_pb",
+    srcs = [":test_protos"],
+)
+
+cpp_grpc_library(
+    name = "test_cc_grpc",
+    deps = [":test_pb"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "test",
+    size = "small",
+    srcs = [":test_srcs"],
+    deps = [
+        ":egrpc",
+        ":test_cc_grpc",
+        "//estd:estd",
+        "//exam:exam",
+        "@gtest//:gtest",
+    ],
+    linkstatic = True,
+    copts = ["-std=c++17"],
+)

@@ -1,0 +1,47 @@
+# ------ ALL SETTINGS ------
+
+run --jobs=3
+build --jobs=3
+test --jobs=3
+coverage --jobs=3
+
+# ------ HARDWARE ------
+
+run:safe --jobs=2
+build:safe --jobs=2
+test:safe --jobs=2
+coverage:safe --jobs=2
+
+# ------ TEST SETTINGS ------
+
+# === ALL TESTS & COVERAGES ===
+
+# show all test output, make failures verbose and never cache
+test --test_output=all --verbose_failures --cache_test_results=no
+
+# show all coverage outputs
+coverage --test_output=all --verbose_failures --instrumentation_filter=
+
+# === C++ COVERAGE ===
+
+coverage:cc_coverage --instrument_test_targets --experimental_cc_coverage --combined_report=lcov --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+
+# === MEMORY ANALYSIS ===
+
+# using valgrind
+run:valgrind --run_under="valgrind --leak-check=full --show-leak-kinds=all"
+test:valgrind --run_under="valgrind --leak-check=full --show-leak-kinds=all"
+coverage:valgrind --run_under="valgrind --leak-check=full --show-leak-kinds=all"
+
+# using asan
+run:asan --linkopt -fsanitize=address
+test:asan --linkopt -fsanitize=address
+coverage:asan --linkopt -fsanitize=address
+
+# === GTESTS ===
+
+test:gtest --action_env="GTEST_SHUFFLE=1" --action_env="GTEST_BREAK_ON_FAILURE=1"
+coverage:gtest --action_env="GTEST_SHUFFLE=1" --action_env="GTEST_BREAK_ON_FAILURE=1"
+
+test:full --action_env="GTEST_REPEAT=30"
+coverage:full --action_env="GTEST_REPEAT=30"

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package mock;
+
+message MockRequest {
+}
+
+message MockResponse {
+}
+
+service MockService {
+    rpc MockRPC (MockRequest) returns (MockResponse);
+    rpc MockStreamOut (MockRequest) returns (stream MockResponse);
+}
