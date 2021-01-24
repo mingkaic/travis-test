@@ -1,34 +1,15 @@
 language: minimal
 os: linux
-dist: focal
+dist: xenial
 services:
   - docker
 jobs:
   include:
     - if: branch = master
       stage: conan_deploy
-      install:
-        - sudo apt purge --auto-remove cmake
-        - if [ -z $(which cmake) ]; then exit 1; fi
-        - version=3.19
-        - build=1
-        - mkdir temp
-        - cd temp
-        - wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz
-        - tar -xzvf cmake-$version.$build.tar.gz
-        - cd cmake-$version.$build/
-        - ./bootstrap
-        - make
-        - sudo make install
-        - cd ../..
-        - cmake --version
       script:
-        - sudo apt-get install -y python3 python3-pip python3-setuptools
-        - pip3 install wheel
-        - pip3 install conan
-        - make conan_remote
-        - make conan_create
-        - VERSION=0.0.1 make conan_upload
+        - docker build -t $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT} -f Dockerfile.conan .
+        - docker run --rm $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT}
 notifications:
   email: false
 branches:
