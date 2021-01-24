@@ -126,7 +126,7 @@ conan_build: build/conanbuildinfo.cmake
 
 .PHONY: conan_create
 conan_create:
-	conan create . mingkaic-co/stable
+	conan create . mingkaic-co/test
 
 .PHONY: conan_upload
 conan_upload:
