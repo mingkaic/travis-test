@@ -5,20 +5,10 @@ services:
   - docker
 jobs:
   include:
-    - stage: build docker image
-      script:
-        - git checkout ${TRAVIS_BRANCH}
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        - docker build -t $DOCKER_USERNAME/cppkg-test:travis-${TRAVIS_COMMIT} .
-        - docker images
-        - docker push $DOCKER_USERNAME/cppkg-test:travis-${TRAVIS_COMMIT}
-    - stage: test
-      script:
-        - docker run -e CODECOV_TOKEN=${CODECOV_TOKEN}
-          --rm $DOCKER_USERNAME/cppkg-test:travis-${TRAVIS_COMMIT}
     - if: branch = master
       stage: conan_deploy
       script:
+        - sudo apt-get install -y python3 cmake
         - pip3 install -y conan
         - make conan_remote
         - make conan_create
