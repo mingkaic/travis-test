@@ -9,4 +9,4 @@ COPY . $APP_DIR
 
 RUN make conan_remote
 
-ENTRYPOINT [ "VERSION=0.0.1", "make", "conan_create_n_upload" ]
+ENTRYPOINT [ "make", "conan_create_n_upload" ]
