@@ -4,9 +4,9 @@ import subprocess
 from conans import ConanFile, CMake
 
 def get_version():
-    get_vers = os.path.join(os.path.realpath(__file__), 'get_version.sh')
-    version = subprocess.check_output([get_vers])
-    return str(version)
+    get_vers = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'get_version.sh')
+    version = subprocess.check_output(['bash', get_vers]).decode('utf-8')
+    return version.strip()
 
 class CppkgConan(ConanFile):
     name = "cppkg"
