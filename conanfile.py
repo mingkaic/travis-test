@@ -1,8 +1,10 @@
+import os
+import subprocess
+
 from conans import ConanFile, CMake
 
 class CppkgConan(ConanFile):
     name = "cppkg"
-    version = "0.0.1"
     license = "MIT"
     author = "Ming Kai Chen <mingkaichen2009@gmail.com>"
     url = "https://github.com/mingkaic/cppkg"
@@ -28,6 +30,11 @@ class CppkgConan(ConanFile):
         cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = self.options.fPIC
         cmake.configure()
         return cmake
+
+    def get_version(self):
+        get_vers = os.path.join(os.path.realpath(__file__), 'get_version.sh')
+        version = subprocess.check_output([get_vers])
+        return str(version)
 
     def configure(self):
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
