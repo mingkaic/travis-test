@@ -8,5 +8,6 @@ WORKDIR $APP_DIR
 COPY . $APP_DIR
 
 RUN make conan_remote
+RUN conan user -r mingkaic-co -p $CONAN_PWD $CONAN_USR
 
 ENTRYPOINT [ "make", "conan_create_n_upload" ]
