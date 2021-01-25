@@ -1,27 +1,6 @@
-FROM ubuntu:18.04
+FROM mkaichen/bionic_conan_cmake:latest
 
 ENV APP_DIR /usr/src/cppkg
-
-# install preliminary deps
-RUN apt-get update &&\
-	apt-get install -y wget python3 python3-pip python3-setuptools git libssl-dev &&\
-	pip3 install wheel
-
-RUN apt purge --auto-remove cmake &&\
-	if [ ! -z $(which cmake) ]; then\
-		exit 1;\
-	fi;
-
-RUN cd /tmp &&\
-	wget https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz &&\
-	tar -xzvf cmake-3.19.1.tar.gz &&\
-	cd cmake-3.19.1/ &&\
-	./bootstrap &&\
-	make &&\
-	make install
-
-# install conan
-RUN pip3 install conan
 
 # working directory
 RUN mkdir -p $APP_DIR
@@ -30,7 +9,4 @@ COPY . $APP_DIR
 
 RUN make conan_remote
 
-ENTRYPOINT [\
-	"make", "conan_create", "&&",\
-	"VERSION=0.0.1", "make", "conan_upload"\
-]
+ENTRYPOINT [ "VERSION=0.0.1", "make", "conan_create_n_upload" ]
