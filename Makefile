@@ -109,7 +109,7 @@ cover_logs:
 	@make clean_test_coverage
 	lcov -a ${TMP_COVFILE} -o logs_coverage.info
 
-VERSION := $(./get_version.sh)
+VERSION := $(shell ./get_version.sh)
 
 .PHONY: conan_remote
 conan_remote:
@@ -132,7 +132,7 @@ conan_create:
 
 .PHONY: conan_upload
 conan_upload:
-	conan upload cppkg/$(VERSION)@mingkaic-co/test --all --remote mingkaic-co
+	conan upload cppkg/${VERSION}@mingkaic-co/test --all --remote mingkaic-co
 
 .PHONY: conan_create_n_upload
 conan_create_n_upload: conan_create conan_upload
