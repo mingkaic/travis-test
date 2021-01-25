@@ -8,8 +8,8 @@ jobs:
     - if: branch = master
       stage: conan_deploy
       script:
-        - docker build -t $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT} -f Dockerfile.conan .
-        - docker run -e CONAN_USR=${CONAN_USR} -e CONAN_PWD=${CONAN_PWD} --rm $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT}
+        - docker build -t $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT} --build-arg CONAN_USR=${CONAN_USR} --build-arg CONAN_PWD=${CONAN_PWD} -f Dockerfile.conan .
+        - docker run --rm $DOCKER_USERNAME/cppkg-cmake:travis-${TRAVIS_COMMIT}
 notifications:
   email: false
 branches:
